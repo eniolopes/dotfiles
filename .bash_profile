@@ -1,6 +1,7 @@
 alias pp="cd ~/Projects"
-alias tns="tmux -u new-session -s $(basename "$PWD")"
-alias source_bash="source ~/.bashrc"
+alias source_bash="source ~/.bash_profile"
+alias nt="cd ~/Dropbox/Bhaktabandhav/newsletter_gen"
+alias battery="acpi"
 
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
@@ -9,3 +10,5 @@ alias source_bash="source ~/.bashrc"
 
 GIT_PROMPT_ONLY_IN_REPO=1
 source ~/.bash-git-prompt/gitprompt.sh
+
+export PATH="$PATH:/home/enio/Projects/dotfiles/bin"
