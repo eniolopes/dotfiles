@@ -3,5 +3,5 @@ return {
   version = "*",
   config = true,
   lazy = true,
-  cmd = 'Git'
+  cmd = 'Git',
 }

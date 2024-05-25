@@ -25,3 +25,5 @@ opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 
 opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom
+
+opt.undofile = true -- save undo history after file is closed

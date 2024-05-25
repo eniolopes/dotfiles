@@ -11,7 +11,15 @@ return {
 
     telescope.setup({
       defaults = {
-        path_display = { "shorten" },
+        mappings = {
+          i = {
+            ["<C-p>"] = require("telescope.actions.layout").toggle_preview,
+          },
+        },
+        preview = {
+          hide_on_startup = true
+        },
+        path_display = { "absolute" },
         layout_config = {
           horizontal = {
             height = 0.9,
