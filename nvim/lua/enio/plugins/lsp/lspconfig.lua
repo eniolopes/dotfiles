@@ -81,6 +81,7 @@ return {
           capabilities = capabilities,
         })
       end,
+      lspconfig.ruby_lsp.setup{},
       lspconfig.rust_analyzer.setup({
         on_attach = function(client)
           require("completion").on_attach(client)

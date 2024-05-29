@@ -1,5 +1,5 @@
 return {
-  "kylechui/nvim-surround",
+  "tpope/vim-surround",
   event = { "BufReadPre", "BufNewFile" },
   version = "*",
   config = true,
