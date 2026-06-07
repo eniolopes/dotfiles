@@ -110,6 +110,7 @@ require("lazy").setup({
       end
     },
 
+
     {
       "christoomey/vim-tmux-navigator",
       cmd = {
@@ -138,8 +139,7 @@ require("lazy").setup({
       "neovim/nvim-lspconfig",
       event = { "BufReadPre", "BufNewFile" },
       config = function()
-        local lspconfig = require("lspconfig")
-        lspconfig.lua_ls.setup({
+        vim.lsp.config("lua_ls", {
           settings = {
             Lua = {
               diagnostics = {
@@ -148,8 +148,8 @@ require("lazy").setup({
             }
           }
         })
-        lspconfig.ts_ls.setup({})
-        lspconfig.rust_analyzer.setup({
+        vim.lsp.config("ts_ls", {})
+        vim.lsp.config("rust_analyzer", {
           cmd = { "/opt/homebrew/bin/rust-analyzer" },
           on_attach = function(_, bufnr)
             vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
@@ -173,6 +173,7 @@ require("lazy").setup({
             }
           }
         })
+        vim.lsp.enable({ "lua_ls", "ts_ls", "rust_analyzer" })
       end
     },
 
@@ -198,7 +199,38 @@ require("lazy").setup({
     { "lewis6991/gitsigns.nvim", config = function() require("gitsigns").setup({ current_line_blame = true }) end },
 
     Load_mini_plugin("tabline"),
-    Load_mini_plugin("statusline"),
+    Load_mini_plugin("statusline", {
+      content = {
+        active = function()
+          local MiniStatusline = require('mini.statusline')
+          local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+          local git = MiniStatusline.section_git({ trunc_width = 40 })
+          local diff = MiniStatusline.section_diff({ trunc_width = 75 })
+          local diagnostics = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+          local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
+          local filename = MiniStatusline.section_filename({ trunc_width = 140 })
+          local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+          local location = MiniStatusline.section_location({ trunc_width = 75 })
+          local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+          local codex = ''
+          local ok, codex_mod = pcall(require, 'codex')
+          if ok and type(codex_mod.status) == 'function' then
+            codex = codex_mod.status() or ''
+          end
+
+          return MiniStatusline.combine_groups({
+            { hl = mode_hl, strings = { mode } },
+            { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
+            '%<',
+            { hl = 'MiniStatuslineFilename', strings = { filename } },
+            '%=',
+            { hl = 'MiniStatuslineFileinfo', strings = { codex, fileinfo } },
+            { hl = mode_hl, strings = { search, location } },
+          })
+        end,
+      },
+    }),
     Load_mini_plugin("icons"),
     Load_mini_plugin("notify"),
     Load_mini_plugin("trailspace"),
